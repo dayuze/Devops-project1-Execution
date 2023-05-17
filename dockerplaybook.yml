@@ -1,0 +1,21 @@
+- hosts: webserver
+  become: true
+  become_user: root
+  vars:
+   repo_name: https://github.com/Sonal0409/AnsibleDockerdemo.git
+   dest: /tmp/myrepo2
+   image_name: ansiblejenkins
+  tasks:
+  - name: Install multiple packages on server
+    yum: name={{item}} state=present
+    loop:
+     - git
+     - docker
+  - name: Start docker service
+    service: name=docker state=started
+  - name: Clone a github repo in server
+    git: repo={{repo_name}} dest={{dest}}
+  - name: Build the dockerfile
+    command: chdir=/tmp/myrepo1 docker build -t {{image_name}} .
+  - name: Deploy the Image
+    command: docker run -d -P {{image_name}}
