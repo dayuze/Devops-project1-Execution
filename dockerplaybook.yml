@@ -16,6 +16,6 @@
   - name: Clone a github repo in server
     git: repo={{repo_name}} dest={{dest}}
   - name: Build the dockerfile
-    command: chdir=/tmp/myrepo1 docker build -t {{image_name}} .
+    command: chdir=/tmp/myrepo2 docker build -t {{image_name}} .
   - name: Deploy the Image
     command: docker run -d -P {{image_name}}
